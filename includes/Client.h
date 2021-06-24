@@ -8,17 +8,16 @@
 #include <iostream>
 #include <vector>
 
-#include "Logger.h"
+// Sleepy Discord Lib
 #include "sleepy_discord/websocketpp_websocket.h"
 #include "sleepy_discord/uwebsockets_websocket.h"
+
+#include "Logger.h"
 
 class Client: public SleepyDiscord::DiscordClient {
 
 public:
-    Client(const std::string& token, const std::string& prefix, unsigned nbOfThreads) : SleepyDiscord::DiscordClient(token, nbOfThreads) {
-        this->PREFIX = prefix;
-        log("Bot Starting !");
-    };
+    Client(const std::string& token, const std::string& prefix, unsigned nbOfThreads);
     void onMessage(SleepyDiscord::Message message) override;
     void setIDWatcher(const std::string& channelID);
     void addVerifiedUser(const std::string& userID);

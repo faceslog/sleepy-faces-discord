@@ -1,13 +1,7 @@
 //
 // Created by faces on 30/01/2021.
 //
-
-#include "../headers/Utils.h"
-#include <stdexcept>
-#include <cstdio>
-#include <array>
-#include <fstream>
-#include <cmath>
+#include "../includes/Utils.h"
 
 std::string Utils::exec_command(const std::string &command) {
 

@@ -2,8 +2,7 @@
 // Created by faces on 08/01/2021.
 //
 
-#include "../headers/Logger.h"
-#include <ctime>
+#include "../includes/Logger.h"
 
 // Ctor
 Logger::Logger(const std::string& fileName) {

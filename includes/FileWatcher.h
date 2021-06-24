@@ -11,7 +11,10 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
+#include <iostream>
+
 #include "Client.h"
+#include "Utils.h"
 
 enum class FileStatus {created, modified, erased};
 

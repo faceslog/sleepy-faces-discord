@@ -1,15 +1,9 @@
 #include <iostream>
 #include <string>
-#include "headers/Client.h"
-
 #include <cstdio>
-#ifdef WINDOWS
-#include <direct.h>
-#define GetCurrentDir _getcwd
-#else
 #include <unistd.h>
-#define GetCurrentDir getcwd
-#endif
+
+#include "../includes/Client.h"
 
 struct Config {
     std::string token;
@@ -19,7 +13,7 @@ struct Config {
 
 std::string GetCurrentWorkingDir( ) {
     char buff[FILENAME_MAX];
-    GetCurrentDir( buff, FILENAME_MAX );
+    getcwd( buff, FILENAME_MAX );
     std::string current_working_dir(buff);
     return current_working_dir;
 }

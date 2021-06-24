@@ -6,8 +6,14 @@
 #define SLEEPY_FACES_COMMANDS_H
 
 #include <iostream>
+#include <vector>
+#include <string>
+
 #include "FileWatcher.h"
 #include "Utils.h"
+#include "Client.h"
+
+class Client;
 
 struct Commands {
     static void parse_command(Client *bot, SleepyDiscord::Message& message);
@@ -16,7 +22,6 @@ struct Commands {
     static void update_prefix(Client *bot, SleepyDiscord::Message& message, std::vector<std::string>& args);
     static void watch(Client *bot, SleepyDiscord::Message& message, std::vector<std::string>& args);
     static void nmap_scan(Client *bot, SleepyDiscord::Message& message, std::vector<std::string>& args);
-    static void get_file(Client *bot, SleepyDiscord::Message& message, std::vector<std::string>& args);
     static void is_website_alive(Client *bot, SleepyDiscord::Message& message, std::vector<std::string>& args);
     // Command to stop the bot script
     static void kill_bot(Client *bot);

@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(PROJECT_SOURCES
         src/main.cpp
-        src/logic/Client.cpp
-        src/logic/Commands.cpp
-        src/logic/FileWatcher.cpp
-        src/logic/Logger.cpp
-        src/logic/Utils.cpp
+        src/Client.cpp
+        src/Commands.cpp
+        src/FileWatcher.cpp
+        src/Logger.cpp
+        src/Utils.cpp
 )
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})

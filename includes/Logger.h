@@ -8,6 +8,7 @@
 #include <string>
 #include <mutex>
 #include <fstream>
+#include <ctime>
 
 /**
  * To manage the file and the lock resources, we use the RAII concept. The resources will be managed by objects.

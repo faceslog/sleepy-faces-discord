@@ -1,17 +1,7 @@
 //
 // Created by faces on 22/11/2020.
 //
-
-#include <experimental/filesystem>
-#include <chrono>
-#include <thread>
-#include <unordered_map>
-#include <string>
-#include <iostream>
-#include <functional>
-
-#include "../headers/FileWatcher.h"
-#include "../headers/Utils.h"
+#include "../includes/FileWatcher.h"
 
 FileWatcher::FileWatcher(const std::string& path_to_watch, std::chrono::duration<int, std::milli> delay) : path_to_watch{path_to_watch}, delay{delay} {
     for(auto &file : std::experimental::filesystem::recursive_directory_iterator(path_to_watch)) {
@@ -100,7 +90,7 @@ void FileWatcher::displayModifiedFile(Client *bot,const std::string& path_to_mod
     std::string last_line = Utils::read_last_line(path_to_modified_file);
 
     // We display the last line of the file
-    if(last_line.size() < Utils::MAX_DISCORD_CHARS && !last_line.empty()){
+    if(last_line.size() < MAX_DISCORD_CHARS && !last_line.empty()){
         bot->sendMessage(bot->getIDWatcher(), "``` Last line: " + last_line + "```");
     } else {
         bot->sendMessage(bot->getIDWatcher(), "``` Last line is either to big for the buffer or empty ! ```");

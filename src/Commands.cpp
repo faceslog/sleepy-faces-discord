@@ -1,9 +1,7 @@
 //
 // Created by faces on 22/11/2020.
 //
-#include <vector>
-#include <string>
-#include "../headers/Commands.h"
+#include "../includes/Commands.h"
 
 // TO DO: REFACTOR THIS UGLY FILE WATCHER HERE
 FileWatcher* watcher{nullptr};
@@ -127,7 +125,7 @@ void Commands::nmap_scan(Client *bot, SleepyDiscord::Message &message, std::vect
         // Log the nmap scan
         bot->log("Nmap scan on target: " + args.at(1) + " by user: " + message.author.username);
 
-        if(result.size() < Utils::MAX_DISCORD_CHARS && !result.empty())
+        if(result.size() < MAX_DISCORD_CHARS && !result.empty())
         {
             bot->sendMessage(message.channelID, "```" + result + "```");
         }
@@ -159,20 +157,6 @@ void Commands::update_prefix(Client *bot, SleepyDiscord::Message& message, std::
     else
     {
         bot->sendMessage(message.channelID, "Please provide the new prefix like that: `" + bot->getPrefix() + "prefix [new_prefix]`");
-    }
-}
-
-void Commands::get_file(Client *bot, SleepyDiscord::Message &message, std::vector<std::string>& args)
-{
-    if(args.size() == 2)
-    {
-        bot->log("The file: " + args.at(1) + "was requested by: " + message.author.username);
-        bot->sendMessage(message.channelID, "Looking for the file...");
-        bot->uploadFile(message.channelID, args.at(1),"Here goes your file: " + message.author.username);
-    }
-    else
-    {
-        bot->sendMessage(message.channelID, "Oops the command is meant to be used like that: " + bot->getPrefix() + "get-file + [full_path_to_file]");
     }
 }
 
