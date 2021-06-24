@@ -1,6 +1,6 @@
 # Your amazing discord bot token !
 # Create a bot.config file and insert your bot token below without any quotes
-prefix = /sl
+prefix = /
 token = put your token here
 # You can add as much user u want to be able to use the bot
 user1 = USER_ID

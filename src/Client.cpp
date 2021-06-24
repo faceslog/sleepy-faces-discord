@@ -88,45 +88,8 @@ void Client::parse_command(SleepyDiscord::Message& message)
 
 }
 
-/* void Client::watch(SleepyDiscord::Message& message, std::vector<std::string>& args)
-{
-
-    if(args.size() == 2)
-    {
-        // Blacklisted some path to prevent permission denied error
-        if(args.at(1) != "/" && args.at(1) != "/etc/")
-        {
-            // If we had a watcher we delete it before allowing a new one
-            delete fwatcher_ptr;
-            fwatcher_ptr = nullptr; // affect to nullptr to avoid double delete
-
-            // If no channel is define to output a trigger for the watcher pick the one where the command is used
-            if(client_ptr->getIDWatcher().empty())
-            {
-                set_watching_channel(message);
-                client_ptr->sendMessage(message.channelID, "This channel has been define to output any change in the given directory you can change it by using the command `watch-here`");
-            }
-
-            // Create the fileWatcher instance that will check the current file
-            fwatcher_ptr = new FileWatcher{args.at(1), std::chrono::milliseconds (5000)};
-            sendMessage(message.channelID, ("Watching the dir path: " + args.at(1)));
-            processWatcher(*this);
-        }
-        else
-        {
-            sendMessage(message.channelID, "This Path is currently Blacklisted ! Sorry");
-        }
-    }
-    else
-    {
-        sendMessage(message.channelID, getPrefix() + "watch [dir/directory path]");
-    }
-
-}*/
-
 void Client::nmap_scan(SleepyDiscord::Message &message, std::vector<std::string> &args)
 {
-
     if(args.size() == 2)
     {
         std::string flags = "nmap -F " + args.at(1);
