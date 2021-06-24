@@ -7,32 +7,43 @@
 
 #include <iostream>
 #include <vector>
+#include <iostream>
+#include <vector>
+#include <string>
 
 // Sleepy Discord Lib
 #include "sleepy_discord/websocketpp_websocket.h"
 #include "sleepy_discord/uwebsockets_websocket.h"
 
 #include "Logger.h"
+#include "Utils.h"
 
 class Client: public SleepyDiscord::DiscordClient {
 
 public:
     Client(const std::string& token, const std::string& prefix, unsigned nbOfThreads);
-    void onMessage(SleepyDiscord::Message message) override;
-    void setIDWatcher(const std::string& channelID);
-    void addVerifiedUser(const std::string& userID);
-    void log(const std::string& content);
-    std::string getPrefix();
-    void setPrefix(std::string& prefix);
-    std::string getIDWatcher();
-    bool isUserWhitelisted(const std::string& userID);
     ~Client() = default;
 
+    void setPrefix(std::string& _prefix);
+    void addVerifiedUser(const std::string& userID);
+    void log(const std::string& content);
+
+    std::string getPrefix();
+
 private:
-    std::string PREFIX;
-    std::string ID_WATCHER;
-    std::vector<std::string> VERIFIED_USERS;
-    Logger logger = Logger("bot.log");
+    std::string prefix;
+    std::vector<std::string> verified_users;
+    Logger logger;
+
+    void onMessage(SleepyDiscord::Message message) override;
+    bool isUserWhitelisted(const std::string& userID);
+
+    void parse_command(SleepyDiscord::Message& message);
+    void update_prefix(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    // void watch(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void nmap_scan(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void is_website_alive(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void kill_bot();
 };
 
 #endif //CLIENT_H

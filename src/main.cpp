@@ -62,8 +62,7 @@ void LoadConfig(Config* config){
 
 int main() {
 
-    Config* config;
-    config = new Config;
+    auto* config = new Config();
 
     // Setup the bot
     LoadConfig(config);
@@ -89,6 +88,6 @@ int main() {
         std::cout << "The Config File is incorrect !" << std::endl;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
 

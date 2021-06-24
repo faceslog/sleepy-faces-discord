@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(PROJECT_SOURCES
         src/main.cpp
         src/Client.cpp
-        src/Commands.cpp
-        src/FileWatcher.cpp
         src/Logger.cpp
         src/Utils.cpp
 )

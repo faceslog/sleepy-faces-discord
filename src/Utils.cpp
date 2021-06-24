@@ -31,6 +31,7 @@ std::string Utils::exec_command(const std::string &command) {
 }
 
 std::string Utils::read_last_line(const std::string &path_to_file) {
+
     std::string last_line;
 
 #define BUFF_SIZE 4096
