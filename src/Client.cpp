@@ -3,7 +3,7 @@
 //
 #include "../includes/Client.h"
 
-Client::Client(const std::string &token, const std::string &prefix, unsigned int nbOfThreads) :SleepyDiscord::DiscordClient(token, static_cast<char>(nbOfThreads)), logger("bot.log")
+Client::Client(const std::string& token, const std::string& prefix, unsigned int nbOfThreads) :SleepyDiscord::DiscordClient(token, static_cast<char>(nbOfThreads)), logger("bot.log")
 {
     this->prefix = prefix;
     log("Bot Starting !");
@@ -13,16 +13,18 @@ void Client::onMessage(SleepyDiscord::Message message)
 {
     if(!message.author.bot)
     {
-        if(message.serverID.string().empty())
-        {
-            sendMessage(message.channelID, "Oops I cannot answer to DMs");
-            return;
-        }
-
         if(message.startsWith(prefix))
         {
-            log('[' + message.author.username + "] command: " + message.content);
-            parse_command(message);
+            // If it's a DM the serverID.string will be empty
+            if(message.serverID.string().empty())
+            {
+                sendMessage(message.channelID, "Oops I cannot answer to DMs");
+            }
+            else
+            {
+                log('[' + message.author.username + "] command: " + message.content);
+                parse_command(message);
+            }
         }
     }
 }
@@ -64,6 +66,7 @@ void Client::parse_command(SleepyDiscord::Message& message)
         args.push_back(word);
     }
 
+    // TO DO: REFACTOR THIS UGLY SHIT !!!!!
     if(args.at(0) == getPrefix() + "prefix" && isUserWhitelisted(message.author.ID))
     {
         update_prefix(message, args);
@@ -88,7 +91,7 @@ void Client::parse_command(SleepyDiscord::Message& message)
 
 }
 
-void Client::nmap_scan(SleepyDiscord::Message &message, std::vector<std::string> &args)
+void Client::nmap_scan(SleepyDiscord::Message &message, std::vector<std::string>& args)
 {
     if(args.size() == 2)
     {
@@ -104,12 +107,12 @@ void Client::nmap_scan(SleepyDiscord::Message &message, std::vector<std::string>
         }
         else
         {
-           sendMessage(message.channelID, "``` Last line is either to big for discord or empty ! ```");
+           sendMessage(message.channelID, "``` Last line is either to long for discord or empty ! ```");
         }
     }
     else
     {
-        sendMessage(message.channelID, "Please provide the ipv4 to scan");
+        sendMessage(message.channelID, "Please provide the ip or domain to scan");
     }
 }
 
@@ -125,10 +128,8 @@ void Client::update_prefix(SleepyDiscord::Message& message, std::vector<std::str
         sendMessage(message.channelID, "Please provide the new prefix like that: `" + getPrefix() + "prefix [new_prefix]`");
     }
 }
-// Disconnect the client_ptr
-void Client::kill_bot() {  quit(); }
 
-void Client::is_website_alive(SleepyDiscord::Message &message, std::vector<std::string> &args)
+void Client::is_website_alive(SleepyDiscord::Message &message, std::vector<std::string>& args)
 {
     if(args.size() == 2)
     {
@@ -141,4 +142,7 @@ void Client::is_website_alive(SleepyDiscord::Message &message, std::vector<std::
         sendMessage(message.channelID, "Oops the command is meant to be used like that: " + getPrefix() + "is-down + [website address]");
     }
 }
+
+void Client::kill_bot() {  quit(); }
+
 
