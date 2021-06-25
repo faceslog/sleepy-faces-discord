@@ -26,7 +26,7 @@ namespace Utils
 
     void LoadConfig(Config* config);
     std::string GetCurrentWorkingDir();
-    std::string exec_command(const std::string& command);
+    std::string ExecCommand(const std::string& command);
 };
 
 #endif //SLEEPY_FACES_UTILS_H

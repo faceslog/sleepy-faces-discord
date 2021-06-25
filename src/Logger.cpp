@@ -1,9 +1,7 @@
 //
 // Created by faces on 08/01/2021.
 //
-
-#include "../includes/Logger.h"
-
+#include "Logger.h"
 // Ctor
 Logger::Logger(const std::string& fileName) {
     mStream.open(fileName);

@@ -1,7 +1,7 @@
 //
 // Created by faces on 18/11/2020.
 //
-#include "../includes/Client.h"
+#include "Client.h"
 
 Client::Client(const std::string& token, const std::string& prefix, unsigned int nbOfThreads) :SleepyDiscord::DiscordClient(token, static_cast<char>(nbOfThreads)), logger("bot.log")
 {
@@ -23,7 +23,7 @@ void Client::onMessage(SleepyDiscord::Message message)
             else
             {
                 log('[' + message.author.username + "] command: " + message.content);
-                parse_command(message);
+                parseCommand(message);
             }
         }
     }
@@ -31,7 +31,7 @@ void Client::onMessage(SleepyDiscord::Message message)
 
 void Client::addVerifiedUser(const std::string& userID)
 {
-    verified_users.push_back(userID);
+    verifiedUsers.push_back(userID);
 }
 
 void Client::log(const std::string &content)
@@ -52,10 +52,10 @@ void Client::setPrefix(std::string &_prefix)
 bool Client::isUserWhitelisted(const std::string& user_id)
 {
     // Check whether an element exists in the vector or not
-    return std::find(verified_users.begin(), verified_users.end(), user_id) != verified_users.end();
+    return std::find(verifiedUsers.begin(), verifiedUsers.end(), user_id) != verifiedUsers.end();
 }
 
-void Client::parse_command(SleepyDiscord::Message& message)
+void Client::parseCommand(SleepyDiscord::Message& message)
 {
     std::vector<std::string> args;
     std::istringstream ss(message.content);
@@ -69,19 +69,19 @@ void Client::parse_command(SleepyDiscord::Message& message)
     // TO DO: REFACTOR THIS UGLY SHIT !!!!!
     if(args.at(0) == getPrefix() + "prefix" && isUserWhitelisted(message.author.ID))
     {
-        update_prefix(message, args);
+        updatePrefix(message, args);
     }
     else if(args.at(0) == getPrefix() + "quick-scan" && isUserWhitelisted(message.author.ID))
     {
-        nmap_scan(message, args);
+        nmapScan(message, args);
     }
     else if(args.at(0) == getPrefix() + "is-down")
     {
-        is_website_alive(message, args);
+        isWebsiteAlive(message, args);
     }
     else if(args.at(0) == getPrefix() + "kill" && isUserWhitelisted(message.author.ID))
     {
-        kill_bot();
+        killBot();
     }
     else
     {
@@ -91,12 +91,12 @@ void Client::parse_command(SleepyDiscord::Message& message)
 
 }
 
-void Client::nmap_scan(SleepyDiscord::Message &message, std::vector<std::string>& args)
+void Client::nmapScan(SleepyDiscord::Message &message, std::vector<std::string>& args)
 {
     if(args.size() == 2)
     {
         std::string flags = "nmap -F " + args.at(1);
-        std::string result = Utils::exec_command(flags);
+        std::string result = Utils::ExecCommand(flags);
 
         // Log the nmap scan
         log("Nmap scan on target: " + args.at(1) + " by user: " + message.author.username);
@@ -116,7 +116,7 @@ void Client::nmap_scan(SleepyDiscord::Message &message, std::vector<std::string>
     }
 }
 
-void Client::update_prefix(SleepyDiscord::Message& message, std::vector<std::string>& args)
+void Client::updatePrefix(SleepyDiscord::Message& message, std::vector<std::string>& args)
 {
     if(args.size() == 2)
     {
@@ -129,12 +129,12 @@ void Client::update_prefix(SleepyDiscord::Message& message, std::vector<std::str
     }
 }
 
-void Client::is_website_alive(SleepyDiscord::Message &message, std::vector<std::string>& args)
+void Client::isWebsiteAlive(SleepyDiscord::Message &message, std::vector<std::string>& args)
 {
     if(args.size() == 2)
     {
         std::string command = "curl -Is " + args.at(1) + " | head -n 1";
-        std::string result = Utils::exec_command(command);
+        std::string result = Utils::ExecCommand(command);
         sendMessage(message.channelID, "```" + result + "```");
     }
     else
@@ -143,6 +143,6 @@ void Client::is_website_alive(SleepyDiscord::Message &message, std::vector<std::
     }
 }
 
-void Client::kill_bot() {  quit(); }
+void Client::killBot() {  quit(); }
 
 

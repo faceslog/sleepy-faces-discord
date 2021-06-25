@@ -1,7 +1,7 @@
 //
 // Created by faces on 30/01/2021.
 //
-#include "../includes/Utils.h"
+#include "Utils.h"
 
 void Utils::LoadConfig(Config* config)
 {
@@ -45,7 +45,7 @@ std::string Utils::GetCurrentWorkingDir()
     return std::string(buff);
 }
 
-std::string Utils::exec_command(const std::string& command) {
+std::string Utils::ExecCommand(const std::string& command) {
 
     int exit_status = 0;
     auto p_pipe = ::popen(command.c_str(), "r");

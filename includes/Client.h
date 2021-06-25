@@ -32,18 +32,18 @@ public:
 
 private:
     std::string prefix;
-    std::vector<std::string> verified_users;
+    std::vector<std::string> verifiedUsers;
     Logger logger;
 
     void onMessage(SleepyDiscord::Message message) override;
     bool isUserWhitelisted(const std::string& userID);
 
-    void parse_command(SleepyDiscord::Message& message);
-    void update_prefix(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void parseCommand(SleepyDiscord::Message& message);
+    void updatePrefix(SleepyDiscord::Message& message, std::vector<std::string>& args);
     // void watch(SleepyDiscord::Message& message, std::vector<std::string>& args);
-    void nmap_scan(SleepyDiscord::Message& message, std::vector<std::string>& args);
-    void is_website_alive(SleepyDiscord::Message& message, std::vector<std::string>& args);
-    void kill_bot();
+    void nmapScan(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void isWebsiteAlive(SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void killBot();
 };
 
 #endif //CLIENT_H
