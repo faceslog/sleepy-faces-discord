@@ -1,6 +1,6 @@
-## SLEEPY-FACES DISCORD BOT C++20
+## SLEEPY-FACES DISCORD BOT C++
 
-### This repo use https://github.com/yourWaifu/sleepy-discord
+*Created in 2019 but I reseted the git history to hide my personnals details*
 
 #### This my first C++ project, and the code really need to be improved ! The goal of this bot was to learn about the basics of the C++ language.
 
