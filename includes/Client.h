@@ -11,9 +11,8 @@
 #include <vector>
 #include <string>
 
-// Sleepy Discord Lib
-#include "sleepy_discord/websocketpp_websocket.h"
-#include "sleepy_discord/uwebsockets_websocket.h"
+// Sleepy Discord
+#include "sleepy_discord/sleepy_discord.h"
 
 #include "Logger.h"
 #include "Utils.h"
@@ -22,7 +21,6 @@ class Client: public SleepyDiscord::DiscordClient {
 
 public:
     Client(const std::string& token, const std::string& prefix, unsigned nbOfThreads);
-    ~Client() = default;
 
     void setPrefix(std::string& _prefix);
     void addVerifiedUser(const std::string& userID);
