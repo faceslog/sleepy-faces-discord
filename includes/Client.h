@@ -37,8 +37,8 @@ private:
     bool isUserWhitelisted(const std::string& userID);
 
     void parseCommand(SleepyDiscord::Message& message);
+    void help(SleepyDiscord::Message& message);
     void updatePrefix(SleepyDiscord::Message& message, std::vector<std::string>& args);
-    // void watch(SleepyDiscord::Message& message, std::vector<std::string>& args);
     void nmapScan(SleepyDiscord::Message& message, std::vector<std::string>& args);
     void isWebsiteAlive(SleepyDiscord::Message& message, std::vector<std::string>& args);
     void killBot();

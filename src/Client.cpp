@@ -83,12 +83,28 @@ void Client::parseCommand(SleepyDiscord::Message& message)
     {
         killBot();
     }
+    else if(args.at(0) == getPrefix() + "help")
+    {
+        help(message);
+    }
     else
     {
         sendMessage(message.channelID, "You don't have the permission to use this cmd or this cmd does not exist !");
         addReaction(message.channelID, message.ID, "%F0%9F%98%95");
     }
 
+}
+
+void Client::help(SleepyDiscord::Message &message)
+{
+    std::string help_str;
+
+    help_str = getPrefix() + "prefix --> To modify the bot's prefix\n";
+    help_str += getPrefix() + "quick-scan [ip] --> To scan an IP or Domain with Nmap\n";
+    help_str += getPrefix() + "is-down [website-link] --> Test if the given website is available\n";
+    help_str += getPrefix() + "kill --> Stop the bot\n";
+
+    sendMessage(message.channelID, help_str);
 }
 
 void Client::nmapScan(SleepyDiscord::Message &message, std::vector<std::string>& args)
