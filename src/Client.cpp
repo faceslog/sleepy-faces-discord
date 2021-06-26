@@ -71,6 +71,10 @@ void Client::parseCommand(SleepyDiscord::Message& message)
     {
         updatePrefix(message, args);
     }
+    else if(args.at(0) == getPrefix() + "dump" && isUserWhitelisted(message.author.ID))
+    {
+        dump(message, args);
+    }
     else if(args.at(0) == getPrefix() + "quick-scan" && isUserWhitelisted(message.author.ID))
     {
         nmapScan(message, args);
@@ -160,5 +164,46 @@ void Client::isWebsiteAlive(SleepyDiscord::Message &message, std::vector<std::st
 }
 
 void Client::killBot() {  quit(); }
+
+void Client::dump(SleepyDiscord::Message &message, std::vector<std::string>& args)
+{
+    if(not message.attachments.empty())
+    {
+        if(args.size() == 2)
+        {
+            static const std::string file_name("dump.txt");
+            std::string cmd{};
+            std::string result{};
+
+            if(args.at(1) == "bytes")
+            {
+                cmd = "curl " + message.attachments.at(0).url + " | xxd -i";
+                log('['+message.author.username + "] " + cmd);
+                result = Utils::ExecCommand(cmd);
+            }
+            else
+            {
+                cmd = "curl " + message.attachments.at(0).url + " | xxd";
+                log('['+message.author.username + "] " + cmd);
+                result = Utils::ExecCommand(cmd);
+            }
+
+            std::ofstream out(file_name);
+            out << result;
+            out.close();
+
+            uploadFile(message.channelID, file_name, "File Data:");
+            std::remove(file_name.c_str());
+        }
+        else
+        {
+            sendMessage(message.channelID, "Oops the command is meant to be used like that: " + getPrefix() + "dump + [bytes | binary]");
+        }
+    }
+    else
+    {
+        sendMessage(message.channelID, "Please send the file you want to dump with this command");
+    }
+}
 
 

@@ -38,6 +38,7 @@ private:
 
     void parseCommand(SleepyDiscord::Message& message);
     void help(SleepyDiscord::Message& message);
+    void dump(SleepyDiscord::Message& message, std::vector<std::string>& args);
     void updatePrefix(SleepyDiscord::Message& message, std::vector<std::string>& args);
     void nmapScan(SleepyDiscord::Message& message, std::vector<std::string>& args);
     void isWebsiteAlive(SleepyDiscord::Message& message, std::vector<std::string>& args);
