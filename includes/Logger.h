@@ -23,20 +23,20 @@ class Logger {
 
 public:
     // Constructor with the file where the logs should be saved
-    Logger(const std::string& fileName);
+    explicit Logger(const std::string& fileName);
 
     // Disable copy ctor and copy assignment
     Logger(const Logger&) = delete;
     Logger& operator= (const Logger&) = delete;
 
     // Move ctor and move assignment
-    Logger(Logger&& other)
+    Logger(Logger&& other) noexcept
     {
         mStream.close();
         mStream = move(other.mStream);
     }
 
-    Logger& operator=(Logger&& other)
+    Logger& operator=(Logger&& other) noexcept
     {
         mStream.close();
         mStream = move(other.mStream);
