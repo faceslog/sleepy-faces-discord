@@ -14,19 +14,17 @@ Logger::Logger(const std::string& fileName) {
 
 void Logger::WriteLine(const std::string& content) {
 
-    std::lock_guard lock(mMutex);
+    std::lock_guard<std::mutex> lock{mMutex};
 
     // Format the tm time using strftime function
     time_t raw_time;
-    struct tm * time_info;
+    struct tm* time_info;
     char buffer[80];
-
-    time (&raw_time);
+    time(&raw_time);
     time_info = localtime(&raw_time);
 
-    strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S", time_info);
-    std::string date(buffer);
-    mStream << '[' << date << ']' << ": " << content << std::endl;
+    strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", time_info);
+    mStream << '[' << buffer << ']' << ": " << content << std::endl;
 }
 
 // Dtor

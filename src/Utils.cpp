@@ -42,7 +42,7 @@ std::string Utils::GetCurrentWorkingDir()
     char buff[FILENAME_MAX];
     getcwd( buff, FILENAME_MAX );
 
-    return std::string(buff);
+    return { buff };
 }
 
 std::string Utils::ExecCommand(const std::string& command) {

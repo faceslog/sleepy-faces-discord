@@ -3,7 +3,7 @@
 int main()
 {
     auto* config = new Utils::Config();
-    // Setup the bot
+    // Set up the bot
     Utils::LoadConfig(config);
 
     if(config->token.empty() || config->prefix.empty() || config->users.empty())
@@ -15,10 +15,10 @@ int main()
 
     Client bot(config->token, config->prefix, 2);
     // Add the whitelisted user to the bot
-    for(const auto& user: config->users)
+    for(auto& user: config->users)
     {
-        bot.addVerifiedUser(user);
-        std::cout << "New verified user ID: " << user << std::endl;
+        std::cout << "Adding user ID: " << user << std::endl;
+        bot.addVerifiedUser(std::move(user));
     }
 
     delete config;
