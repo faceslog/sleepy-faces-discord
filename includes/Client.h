@@ -18,24 +18,24 @@
 class Client: public SleepyDiscord::DiscordClient {
 
 public:
-    explicit Client(const std::string& token, const std::string& prefix, unsigned nbOfThreads);
+    explicit Client(std::string token, std::string prefix, uint16_t nbOfThreads);
     void addVerifiedUser(std::string userID);
     void log(const std::string& content);
 
 private:
-    std::string prefix;
-    std::vector<std::string> verifiedUsers;
-    Logger logger;
-
     void onMessage(SleepyDiscord::Message message) override;
     bool isUserWhitelisted(const std::string& userID);
     void setPrefix(std::string _prefix);
     std::string getPrefix();
-    void parseCommand(SleepyDiscord::Message& message);
-    void help(SleepyDiscord::Message& message);
-    void updatePrefix(SleepyDiscord::Message& message, std::vector<std::string>& args);
-    void ark(SleepyDiscord::Message& message, std::vector<std::string>& args);
-    void killBot();
+    void parseCommand(const SleepyDiscord::Message& message);
+    void help(const SleepyDiscord::Message& message);
+    void updatePrefix(const SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void ark(const SleepyDiscord::Message& message, std::vector<std::string>& args);
+    void killBot(const SleepyDiscord::Message& message);
+
+    std::string prefix;
+    std::vector<std::string> verifiedUsers;
+    Logger logger;
 };
 
 #endif //CLIENT_H

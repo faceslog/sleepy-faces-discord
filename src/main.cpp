@@ -13,7 +13,7 @@ int main()
         return EXIT_FAILURE;
     }
 
-    Client bot(config->token, config->prefix, 2);
+    Client bot(std::move(config->token), std::move(config->prefix), 2);
     // Add the whitelisted user to the bot
     for(auto& user: config->users)
     {

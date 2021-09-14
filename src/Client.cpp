@@ -5,12 +5,12 @@
 
 Client::Client
 (
-    const std::string& token,
-    const std::string& prefix,
-    unsigned int nbOfThreads
-) : SleepyDiscord::DiscordClient(token, static_cast<char>(nbOfThreads)), logger("bot.log")
+    std::string token,
+    std::string prefix,
+    uint16_t nbOfThreads
+) : SleepyDiscord::DiscordClient(std::move(token), static_cast<char>(nbOfThreads)), logger("bot.log")
 {
-    this->prefix = prefix;
+    this->prefix = std::move(prefix);
     log("Bot Starting !");
 }
 
@@ -18,7 +18,12 @@ void Client::onMessage(SleepyDiscord::Message message)
 {
     if(message.author.bot) return;
     if(!message.startsWith(prefix)) return;
-    if(message.serverID.string().empty()) return;
+    if(message.serverID.string().empty())
+    {
+        sendMessage(message.channelID, "Oops I cannot answer to DMs");
+        return;
+    }
+
     if(!isUserWhitelisted(message.author.ID)) return;
 
     log('[' + message.author.username + "] command: " + message.content);
@@ -51,7 +56,7 @@ bool Client::isUserWhitelisted(const std::string& user_id)
     return std::find(verifiedUsers.begin(), verifiedUsers.end(), user_id) != verifiedUsers.end();
 }
 
-void Client::parseCommand(SleepyDiscord::Message& message)
+void Client::parseCommand(const SleepyDiscord::Message& message)
 {
     std::vector<std::string> args;
     std::istringstream ss(message.content);
@@ -73,7 +78,7 @@ void Client::parseCommand(SleepyDiscord::Message& message)
     }
     else if(args.at(0) == getPrefix() + "kill")
     {
-        killBot();
+        killBot(message);
     }
     else if(args.at(0) == getPrefix() + "help")
     {
@@ -85,7 +90,7 @@ void Client::parseCommand(SleepyDiscord::Message& message)
     }
 }
 
-void Client::help(SleepyDiscord::Message &message)
+void Client::help(const SleepyDiscord::Message &message)
 {
     std::string help_str;
 
@@ -96,7 +101,7 @@ void Client::help(SleepyDiscord::Message &message)
     sendMessage(message.channelID, help_str);
 }
 
-void Client::updatePrefix(SleepyDiscord::Message& message, std::vector<std::string>& args)
+void Client::updatePrefix(const SleepyDiscord::Message& message, std::vector<std::string>& args)
 {
     if(args.size() != 2)
     {
@@ -108,17 +113,17 @@ void Client::updatePrefix(SleepyDiscord::Message& message, std::vector<std::stri
     sendMessage(message.channelID, "The new Prefix to ask me something is: " + args.at(1));
 }
 
-void Client::ark(SleepyDiscord::Message& message, std::vector<std::string>& args)
+void Client::ark(const SleepyDiscord::Message& message, std::vector<std::string>& args)
 {
     if(args.size() != 2)
     {
-        sendMessage(message.channelID, "Invalid command ! Please use the command help to get more details !");
+        sendMessage(message.channelID, "Please provide an argument !");
         return;
     }
 
-    if(args.at(1) !="start" || args.at(1) != "stop" || args.at(1) != "update")
+    if(args.at(1) != "start" && args.at(1) != "stop" && args.at(1) != "update")
     {
-        sendMessage(message.channelID, "Invalid argument ! Please use the command help to get more details !");
+        sendMessage(message.channelID, "Invalid argument !");
         return;
     }
 
@@ -141,9 +146,13 @@ void Client::ark(SleepyDiscord::Message& message, std::vector<std::string>& args
         return;
     }
 
-    sendMessage(message.channelID, "```sh " + output + "```");
+    sendMessage(message.channelID, "```" + output + "```");
 }
 
-void Client::killBot() {  quit(); }
+void Client::killBot(const SleepyDiscord::Message& message)
+{
+    sendMessage(message.channelID, "Stopping bot ...");
+    quit();
+}
 
 
